@@ -25,8 +25,7 @@ export function PromptForm({
   setInput,
   isLoading
 }: PromptProps) {
-  console.log('here is the input!!')
-  console.log({ input })
+  console.log('input in prompt form:', input)
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
 

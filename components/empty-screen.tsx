@@ -3,47 +3,7 @@ import { UseChatHelpers } from 'ai/react'
 import { Button } from '@/components/ui/button'
 import { ExternalLink } from '@/components/external-link'
 import { IconArrowRight } from '@/components/ui/icons'
-
-const exampleMessages = [
-  {
-    heading: 'Create a character',
-    message: [
-      {
-        role: 'system',
-        content: `Please create a D&D character. Extra details to include are: they are strong, and have green skin. They are an elf fighter. \n
-                  Name: Lia Thread \n
-                  Medium fey (high elf), True neutral \n
-                  Elf Fighter 1 \n
-                  Bio: Lia Thread is an elderly elf shopkeep who runs a small, unassuming store in a bustling city. He is known for his friendly demeanor and willingness to help his customers find what they need. However, there is a hidden secret in the back room of his shop - a secret room that contains a vast array of stolen goods and treasures that Elrond has acquired over the years. He is a skilled rogue who has made a living out of thievery and deception, but he keeps his criminal activities hidden from the public eye. When he's not running his shop, Elrond can often be found planning and executing heists, always staying one step ahead of the law. \n
-                  Strength: 10 (0) \n
-                  Dexterity: 16 (+3) \n
-                  Constitution: 13 (+1) \n
-                  Intelligence: 16 (+3) \n
-                  Wisdom: 12 (+1) \n
-                  Charisma: 8 (-1) \n
-                  Proficiencies: (+2 proficiency bonus) \n
-                  Saving Throws: Str +2, Con +3; advantage on saves against being charmed. \n
-                  Skills: Arcana +5, Athletics +2, History +5, Insight +3, Perception +3, Survival +3. \n
-                  Armor: All, shields. \n
-                  Weapons: Simple, martial. \n
-                  Senses: Darkvision, Passive Perception 13 \n
-                  Languages: Common, Dwarvish, Draconic, Elvish, Halfling`
-      },
-      {
-        role: 'user',
-        content: 'Please create a D&D character. Extra details to include are:'
-      }
-    ]
-  },
-  {
-    heading: 'Rule quick reference',
-    message: 'Briefly describe, in D&D what is the rule for: \n'
-  },
-  {
-    heading: 'Describe a place',
-    message: `Please describe a place which is a room that characters have just entered. Randomly choose something that belongs in the Dungeons and Dragons universe, and provide the details of this setting in a gripping, interesting, visually stunning way. \n`
-  }
-]
+import { exampleMessages } from './initMessages'
 
 export function EmptyScreen({ setInput }: Pick<UseChatHelpers, 'setInput'>) {
   return (

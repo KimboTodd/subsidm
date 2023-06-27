@@ -23,10 +23,16 @@ import { Input } from './ui/input'
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview'
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
+  initialInput?: string
   id?: string
 }
 
-export function Chat({ id, initialMessages, className }: ChatProps) {
+export function Chat({
+  id,
+  initialMessages,
+  initialInput,
+  className
+}: ChatProps) {
   const [previewToken, setPreviewToken] = useLocalStorage<string | null>(
     'ai-token',
     null
@@ -36,16 +42,18 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
       initialMessages,
+      initialInput,
       id,
       body: {
         id,
         previewToken
       }
     })
+  console.log('initialInput', initialInput)
   return (
     <>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
-        {messages.length ? (
+        {messages.length > 1 ? (
           <>
             <ChatList messages={messages} />
             <ChatScrollAnchor trackVisibility={isLoading} />
