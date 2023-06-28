@@ -1,40 +1,43 @@
-import { Metadata } from 'next'
+import { Metadata } from 'next';
 
-import { Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast';
 
-import '@/app/globals.css'
-import { fontMono, fontSans } from '@/lib/fonts'
-import { cn } from '@/lib/utils'
-import { TailwindIndicator } from '@/components/tailwind-indicator'
-import { Providers } from '@/components/providers'
-import { Header } from '@/components/header'
+import '@/app/globals.css';
+import { fontMono, fontSans } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
+import { TailwindIndicator } from '@/components/tailwind-screen-size-indicator';
+import { Providers } from '@/components/providers';
+import { Header } from '@/components/header';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: {
     default: 'Next.js AI Chatbot',
-    template: `%s - Next.js AI Chatbot`
+    template: `%s - Next.js AI Chatbot`,
   },
   description: 'An AI-powered chatbot template built with Next.js and Vercel.',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' }
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png'
+    apple: '/apple-touch-icon.png',
   },
   // metadataBase: new URL('http://subsidm.kimbo.dev')
-}
+};
 
 interface RootLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <title>Subsidm</title>
+      </head>
       <body
         className={cn(
           'font-sans antialiased',
@@ -51,7 +54,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </div>
           <TailwindIndicator />
         </Providers>
+        <Analytics />
       </body>
     </html>
-  )
+  );
 }
