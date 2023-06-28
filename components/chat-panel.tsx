@@ -1,10 +1,10 @@
-import { type UseChatHelpers } from 'ai/react'
+import { type UseChatHelpers } from 'ai/react';
 
-import { Button } from '@/components/ui/button'
-import { PromptForm } from '@/components/prompt-form'
-import { ButtonScrollToBottom } from '@/components/button-scroll-to-bottom'
-import { IconRefresh, IconStop } from '@/components/ui/icons'
-import { FooterText } from '@/components/footer'
+import { Button } from '@/components/ui/button';
+import { PromptForm } from '@/components/prompt-form';
+import { ButtonScrollToBottom } from '@/components/button-scroll-to-bottom';
+import { IconRefresh, IconStop, IconUserPlus } from '@/components/ui/icons';
+import { FooterText } from '@/components/footer';
 
 export interface ChatPanelProps
   extends Pick<
@@ -17,7 +17,8 @@ export interface ChatPanelProps
     | 'input'
     | 'setInput'
   > {
-  id?: string
+  id?: string;
+  saveCharacter: Function;
 }
 
 export function ChatPanel({
@@ -26,9 +27,10 @@ export function ChatPanel({
   stop,
   append,
   reload,
+  saveCharacter,
   input,
   setInput,
-  messages
+  messages,
 }: ChatPanelProps) {
   return (
     <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-muted/10 from-10% to-muted/30 to-50%">
@@ -45,15 +47,26 @@ export function ChatPanel({
               Stop generating
             </Button>
           ) : (
-            messages?.length > 0 && (
-              <Button
-                variant="outline"
-                onClick={() => reload()}
-                className="bg-background"
-              >
-                <IconRefresh className="mr-2" />
-                Regenerate response
-              </Button>
+            messages?.length > 1 && (
+              <>
+                <Button
+                  variant="outline"
+                  onClick={() => reload()}
+                  className="bg-background"
+                >
+                  <IconRefresh className="mr-2" />
+                  Regenerate response
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={() => saveCharacter(messages.at(-1))}
+                  className="bg-background"
+                >
+                  <IconUserPlus className="mr-2" />
+                  Save Character
+                </Button>
+              </>
             )
           )}
         </div>
@@ -63,8 +76,8 @@ export function ChatPanel({
               await append({
                 id,
                 content: value,
-                role: 'user'
-              })
+                role: 'user',
+              });
             }}
             input={input}
             setInput={setInput}
@@ -74,5 +87,5 @@ export function ChatPanel({
         </div>
       </div>
     </div>
-  )
+  );
 }
