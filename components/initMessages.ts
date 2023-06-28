@@ -125,22 +125,22 @@ export const initCharacterMessagesJSON: Message[] = [
     role: 'system',
     content: `You are an expert in Dungeons and Dragons and a masterful storyteller.
 
-              Please create a D&D character. Extra details to include are: the character is a woman, and is a wizard.
+              Please create a D&D character and output in valid JSON format. Extra details to include are: the character is a woman, and is a wizard.
               
               {
                 "Name": "Lyra Shadowbrook",
                 "Race": "Half-Elf",
                 "Class": "Wizard",
                 "Alignment": "Lawful Good",
-                "Bio": "Lyra Shadowbrook was born to a human mother and an elven father, who were both powerful wizards. From a young age, Lyra showed great promise in magic, quickly surpassing her peers in her studies. Her parents wanted her to follow in their footsteps and become a wizard, but Lyra had other plans. She wanted to use her magic to help people and make the world a better place.\nLyra left home to study at a prestigious wizarding school, where she excelled in her classes and became known for her quick thinking and problem-solving skills. She also became passionate about using her magic to protect the innocent and fight against evil.\nAfter graduation, Lyra set out on a quest to rid the world of dark magic and bring justice to those who had been wronged. She is determined, focused, and always ready for a challenge.",
+                "Bio": "Lyra Shadowbrook was born to a human mother and an elven father, who were both powerful wizards. From a young age, Lyra showed great promise in magic, quickly surpassing her peers in her studies. Her parents wanted her to follow in their footsteps and become a wizard, but Lyra had other plans. She wanted to use her magic to help people and make the world a better place.\\nLyra left home to study at a prestigious wizarding school, where she excelled in her classes and became known for her quick thinking and problem-solving skills. She also became passionate about using her magic to protect the innocent and fight against evil.\\nAfter graduation, Lyra set out on a quest to rid the world of dark magic and bring justice to those who had been wronged. She is determined, focused, and always ready for a challenge.",
                 "Appearance": "Lyra has long, curly brown hair and piercing green eyes. She wears a long, flowing robe in shades of blue and green, and carries a staff adorned with a crystal at the top.",
                 "Abilities": {
-                  "Strength": { base: 8, modifier: -1 },
-                  "Dexterity": { base: 14, modifier: +2 },
-                  "Constitution": { base: 12, modifier: +1 },
-                  "Intelligence": { base: 18, modifier: +4 },
-                  "Wisdom": { base: 10, modifier: 0 },
-                  "Charisma": { base: 14, modifier: +2 }
+                  "Strength": { "base": 8, "modifier": "-1" },
+                  "Dexterity": { "base": 14, "modifier": "+2" },
+                  "Constitution": { "base": 12, "modifier": "+1" },
+                  "Intelligence": { "base": 18, "modifier": "+4" },
+                  "Wisdom": { "base": 10, "modifier": "0" },
+                  "Charisma": { "base": 14, "modifier": "+2" }
                 },
                 "Proficiencies": {
                   "Saving Throws": {
@@ -183,58 +183,9 @@ export const initCharacterMessagesJSON: Message[] = [
               }
               
               ###
-
-              Please create a D&D character. Extra details to include are: They are a halfling rogue child.
-
-              {
-                Name: 'Willow Whisperfoot',
-                Race: 'Halfling',
-                Class: 'Rogue',
-                Alignment: 'Chaotic Good',
-                Bio: "Willow Whisperfoot is a small and nimble halfling child who has always had a knack for mischief and quick thinking. Growing up in a bustling city, Willow learned early on how to navigate crowded streets and evade trouble. Despite their mischievous nature, Willow has a heart of gold and always uses their skills for the greater good. Willow's parents were both skilled thieves, but they wanted a different path for their child. They enrolled Willow in a guild of rogues where they could learn to use their natural talents for good rather than for personal gain. Under the guidance of their mentor, Willow honed their agility and stealth, becoming a formidable rogue. Now, Willow travels the world, using their skills to help those in need and to uncover hidden truths. They are always seeking new adventures and challenges, eager to put their nimbleness and quick reflexes to the test.",
-                Appearance:
-                  'Willow is a small halfling child with short, tousled brown hair and bright blue eyes. They have a mischievous grin that is often seen on their face. Willow wears lightweight leather armor that allows for maximum freedom of movement, and carries a small backpack filled with various gadgets and tools.',
-                Abilities: {
-                  Strength: { base: 8, modifier: -1 },
-                  Dexterity: { base: 18, modifier: +4 },
-                  Constitution: { base: 12, modifier: +1 },
-                  Intelligence: { base: 14, modifier: +2 },
-                  Wisdom: { base: 10, modifier: 0 },
-                  Charisma: { base: 16, modifier: +3 },
-                },
-                Proficiencies: {
-                  'Saving Throws': { Dexterity: 6, Intelligence: 2 },
-                  Skills: { Acrobatics: 6, Stealth: 6, Perception: 4, 'Sleight of Hand': 4 },
-                  Armor: 'Light armor',
-                  Weapons: 'Daggers, shortbows, shortswords',
-                  Tools: "Thieves' tools",
-                  Languages: 'Common, Halfling',
-                },
-                Features: {
-                  'Sneak Attack':
-                    "Willow's nimbleness and ability to strike with precision allows them to deal extra damage when they have an advantage or an ally is distracting their target.",
-                  'Cunning Action':
-                    'Willow can use a bonus action on each of their turns to take the Dash, Disengage, or Hide action.',
-                  Evasion:
-                    "Willow's quick reflexes and agility allow them to dodge out of the way of certain area effects, taking only half damage from them.",
-                },
-                Equipment: [
-                  'Shortsword',
-                  'Daggers (2)',
-                  'Shortbow',
-                  'Quiver with 20 arrows',
-                  'Leather armor',
-                  "Thieves' tools",
-                  "Burglar's pack",
-                  'Bedroll',
-                  'Rations (5 days)',
-                  'Waterskin',
-                  '50 gold pieces',
-                ],
-              }
             `,
   },
 ];
 
 export const initCharacterInput =
-  'Please create a D&D character. Extra details to include are: ';
+  'Please create a D&D character and output in valid JSON format. Extra details to include are: ';
