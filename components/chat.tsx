@@ -1,44 +1,64 @@
-'use client'
+'use client';
 
-import { useChat, type Message } from 'ai/react'
+import { useChat, type Message } from 'ai/react';
 
-import { cn } from '@/lib/utils'
-import { ChatList } from '@/components/chat-list'
-import { ChatPanel } from '@/components/chat-panel'
-import { EmptyScreen } from '@/components/empty-screen'
-import { ChatScrollAnchor } from '@/components/chat-scroll-anchor'
-import { useLocalStorage } from '@/lib/hooks/use-local-storage'
+import { cn } from '@/lib/utils';
+import { ChatList } from '@/components/chat-list';
+import { ChatPanel } from '@/components/chat-panel';
+import { EmptyScreen } from '@/components/empty-screen';
+import { ChatScrollAnchor } from '@/components/chat-scroll-anchor';
+import { useLocalStorage } from '@/lib/hooks/use-local-storage';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
-} from '@/components/ui/dialog'
-import { useState } from 'react'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { saveCharacterToKV } from '@/app/actions/character';
 
-const IS_PREVIEW = process.env.VERCEL_ENV === 'preview'
+const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 export interface ChatProps extends React.ComponentProps<'div'> {
-  initialMessages?: Message[]
-  initialInput?: string
-  id?: string
+  initialMessages?: Message[];
+  initialInput?: string;
+  id?: string;
 }
+
+const saveCharacter = async (characterText: {
+  role: string;
+  content: string;
+}) => {
+  if (characterText.role === 'assistant') {
+    const content = characterText.content;
+    const characterString = content.substring(
+      content.indexOf('{'),
+      content.lastIndexOf('}') + 1
+    );
+
+    const characterJson = JSON.parse(characterString);
+    const savedCharacter = await saveCharacterToKV(characterJson);
+    console.log('savedCharacter', savedCharacter);
+  }
+};
 
 export function Chat({
   id,
   initialMessages,
   initialInput,
-  className
+  className,
 }: ChatProps) {
   const [previewToken, setPreviewToken] = useLocalStorage<string | null>(
     'ai-token',
     null
-  )
-  const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW)
-  const [previewTokenInput, setPreviewTokenInput] = useState(previewToken ?? '')
+  );
+  const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW);
+  const [previewTokenInput, setPreviewTokenInput] = useState(
+    previewToken ?? ''
+  );
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
       initialMessages,
@@ -46,10 +66,10 @@ export function Chat({
       id,
       body: {
         id,
-        previewToken
-      }
-    })
-  console.log('initialInput', initialInput)
+        previewToken,
+      },
+    });
+  console.log('initialInput', initialInput);
   return (
     <>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
@@ -68,6 +88,7 @@ export function Chat({
         stop={stop}
         append={append}
         reload={reload}
+        saveCharacter={saveCharacter}
         messages={messages}
         input={input}
         setInput={setInput}
@@ -99,8 +120,8 @@ export function Chat({
           <DialogFooter className="items-center">
             <Button
               onClick={() => {
-                setPreviewToken(previewTokenInput)
-                setPreviewTokenDialog(false)
+                setPreviewToken(previewTokenInput);
+                setPreviewTokenDialog(false);
               }}
             >
               Save Token
@@ -109,5 +130,5 @@ export function Chat({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

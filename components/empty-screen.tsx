@@ -1,9 +1,9 @@
-import { UseChatHelpers } from 'ai/react'
+import { UseChatHelpers } from 'ai/react';
 
-import { Button } from '@/components/ui/button'
-import { ExternalLink } from '@/components/external-link'
-import { IconArrowRight } from '@/components/ui/icons'
-import { exampleMessages } from './initMessages'
+import { Button } from '@/components/ui/button';
+import { ExternalLink } from '@/components/external-link';
+import { IconArrowRight } from '@/components/ui/icons';
+import { exampleMessages } from './initMessages';
 
 export function EmptyScreen({ setInput }: Pick<UseChatHelpers, 'setInput'>) {
   return (
@@ -39,6 +39,7 @@ export function EmptyScreen({ setInput }: Pick<UseChatHelpers, 'setInput'>) {
         <p className="leading-normal text-muted-foreground">
           You can get some quick assistance here:
         </p>
+
         <div className="mt-4 flex flex-col items-start space-y-2">
           {exampleMessages.map((message, index) => (
             <Button
@@ -54,5 +55,5 @@ export function EmptyScreen({ setInput }: Pick<UseChatHelpers, 'setInput'>) {
         </div>
       </div>
     </div>
-  )
+  );
 }
