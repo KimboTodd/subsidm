@@ -25,7 +25,10 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
-  // metadataBase: new URL('http://subsidm.kimbo.dev')
+  metadataBase: new URL('http://subsidm.kimbo.dev'),
+  openGraph: {
+    images: '/homunculus.png',
+  },
 };
 
 interface RootLayoutProps {

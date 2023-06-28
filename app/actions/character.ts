@@ -1,108 +1,122 @@
-'use server'
+'use server';
 
-import { revalidatePath } from 'next/cache'
-import { kv } from '@vercel/kv'
+import { revalidatePath } from 'next/cache';
+import { kv } from '@vercel/kv';
 
-import { auth } from '@/auth'
-import { Character } from '@/lib/types'
-import { nanoid } from 'nanoid'
+import { auth } from '@/auth';
+import { Character } from '@/lib/types';
+import { nanoid } from 'nanoid';
 
 export async function getCharacters(userId?: string | null) {
   if (!userId) {
-    return []
+    return [];
   }
 
   try {
-    const pipeline = kv.pipeline()
-    const characters: string[] = await kv.zrange(`user:character:${userId}`, 0, -1, {
-      rev: true
-    })
+    const pipeline = kv.pipeline();
+    const characters: string[] = await kv.zrange(
+      `user:character:${userId}`,
+      0,
+      -1,
+      {
+        rev: true,
+      }
+    );
 
     for (const character of characters) {
-      pipeline.hgetall(character)
+      pipeline.hgetall(character);
     }
 
-    const results = await pipeline.exec()
+    const results = await pipeline.exec();
 
-    return results as Character[]
+    return results as Character[];
   } catch (error) {
-    return []
+    return [];
   }
 }
 
-export async function removeCharacter({ id, path }: { id: string; path: string }) {
-  const session = await auth()
+export async function removeCharacter({
+  id,
+  path,
+}: {
+  id: string;
+  path: string;
+}) {
+  const session = await auth();
 
   if (!session) {
     return {
-      error: 'Unauthorized'
-    }
+      error: 'Unauthorized',
+    };
   }
 
-  const uid = await kv.hget<string>(`character:${id}`, 'userId')
+  const uid = await kv.hget<string>(`character:${id}`, 'userId');
 
   if (uid !== session?.user?.id) {
     return {
-      error: 'Unauthorized'
-    }
+      error: 'Unauthorized',
+    };
   }
 
-  await kv.del(`character:${id}`)
-  await kv.zrem(`user:character:${session.user.id}`, `character:${id}`)
+  await kv.del(`character:${id}`);
+  await kv.zrem(`user:character:${session.user.id}`, `character:${id}`);
 
-  revalidatePath('/')
-  return revalidatePath(path)
+  revalidatePath('/');
+  return revalidatePath(path);
 }
 
 export async function getSharedCharacter(id: string) {
-  const character = await kv.hgetall<Character>(`character:${id}`)
+  const character = await kv.hgetall<Character>(`character:${id}`);
 
   if (!character || !character.sharePath) {
-    return null
+    return null;
   }
 
-  return character
+  return character;
 }
 
 export async function shareCharacter(character: Character) {
-  const session = await auth()
+  const session = await auth();
 
   if (!session?.user?.id || session.user.id !== character.userId) {
     return {
-      error: 'Unauthorized'
-    }
+      error: 'Unauthorized',
+    };
   }
 
   const payload = {
     ...character,
-    sharePath: `/share/${character.id}`
-  }
+    sharePath: `/share/${character.id}`,
+  };
 
-  await kv.hmset(`character:${character.id}`, payload)
+  await kv.hmset(`character:${character.id}`, payload);
 
-  return payload
+  return payload;
 }
 
-export async function saveCharacter(character: Character) {
-  const session = await auth()
+export async function saveCharacterToKV(character: Character) {
+  const session = await auth();
 
-  if (!session?.user?.id || session.user.id !== character.userId) {
+  if (
+    !session?.user?.id ||
+    (character.userId && session.user.id !== character.userId)
+  ) {
     return {
-      error: 'Unauthorized'
-    }
+      error: 'Unauthorized',
+    };
   }
 
-  const id = character.id ?? nanoid()
+  const id = character.id ?? nanoid();
 
   const payload = {
     ...character,
-    sharePath: `/share/${id}`
-  }
+    sharePath: `/share/${id}`,
+  };
 
-  await kv.hmset(`character:${id}`, payload)
+  await kv.hmset(`character:${id}`, payload);
   await kv.zadd(`user:character:${session.user.id}`, {
     score: Date.now(),
-    member: `character:${id}`
-  })
-  return payload
+    member: `character:${id}`,
+  });
+  return payload;
 }
