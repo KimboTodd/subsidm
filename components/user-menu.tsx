@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import Image from 'next/image';
 import { type Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 

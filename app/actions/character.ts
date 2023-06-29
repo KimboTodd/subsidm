@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { kv } from '@vercel/kv';
 
 import { auth } from '@/auth';
-import { Character } from '@/lib/types';
+import { Character } from '@/lib/Character';
 import { nanoid } from 'nanoid';
 
 export async function getCharacters(userId?: string | null) {
