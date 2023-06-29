@@ -2,7 +2,7 @@
 
 import { useChat, type Message } from 'ai/react';
 
-import { cn } from '@/lib/utils';
+import { cn, nanoid } from '@/lib/utils';
 import { ChatList } from '@/components/chat-list';
 import { ChatPanel } from '@/components/chat-panel';
 import { EmptyScreen } from '@/components/empty-screen';
@@ -19,7 +19,7 @@ import {
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { saveCharacterToKV } from '@/app/actions/character';
+import { saveCharacterToKV } from '@/app/actions/characterActions';
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -93,7 +93,7 @@ export function Chat({
         previewToken,
       },
     });
-  
+
   return (
     <>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
