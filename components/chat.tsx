@@ -20,6 +20,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { saveCharacterToKV } from '@/app/actions/characterActions';
+import { getSession } from 'next-auth/react';
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -45,7 +46,8 @@ const saveCharacter = async (characterText: {
       characterJson.id = nanoid();
     }
 
-    const session = await auth();
+    const session = await getSession()
+
     if (session) {
       const savedCharacter = await saveCharacterToKV(characterJson);
       console.log('savedCharacter to kv', savedCharacter);
