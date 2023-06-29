@@ -40,8 +40,32 @@ const saveCharacter = async (characterText: {
     );
 
     const characterJson = JSON.parse(characterString);
-    const savedCharacter = await saveCharacterToKV(characterJson);
-    console.log('savedCharacter', savedCharacter);
+
+    if (!characterJson.id) {
+      characterJson.id = nanoid();
+    }
+
+    const session = await auth();
+    if (session) {
+      const savedCharacter = await saveCharacterToKV(characterJson);
+      console.log('savedCharacter to kv', savedCharacter);
+    } else {
+      // User not logged in, save to local storage instead
+      const characters = JSON.parse(localStorage.getItem('characters') || '[]');
+      const characterIndex = characters.findIndex(
+        (character: any) => character.id === characterJson.id
+      );
+      if (characterIndex === -1) {
+        // no character of this ID found.
+        characters.push(characterJson);
+      } else {
+        characters[characterIndex] = characterJson;
+      }
+
+      localStorage.setItem('characters', JSON.stringify(characters));
+
+      console.log('saved to local storage', characters);
+    }
   }
 };
 

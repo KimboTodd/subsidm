@@ -5,7 +5,6 @@ import { kv } from '@vercel/kv';
 
 import { auth } from '@/auth';
 import { Character } from '@/lib/Character';
-import { nanoid } from 'nanoid';
 
 export async function getCharacters(userId?: string | null) {
   if (!userId) {
@@ -106,17 +105,15 @@ export async function saveCharacterToKV(character: Character) {
     };
   }
 
-  const id = character.id ?? nanoid();
-
   const payload = {
     ...character,
-    sharePath: `/share/${id}`,
+    sharePath: `/share/${character.id}`,
   };
 
-  await kv.hmset(`character:${id}`, payload);
+  await kv.hmset(`character:${character.id}`, payload);
   await kv.zadd(`user:character:${session.user.id}`, {
     score: Date.now(),
-    member: `character:${id}`,
+    member: `character:${character.id}`,
   });
   return payload;
 }
