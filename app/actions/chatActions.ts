@@ -8,6 +8,7 @@ import { auth } from '@/auth';
 import { type Chat } from '@/lib/Chat';
 
 export async function getChats(userId?: string | null) {
+  console.log('getChats');
   if (!userId) {
     return [];
   }
@@ -31,6 +32,7 @@ export async function getChats(userId?: string | null) {
 }
 
 export async function getChat(id: string, userId: string) {
+  console.log('getChat');
   const chat = await kv.hgetall<Chat>(`chat:${id}`);
 
   if (!chat || (userId && chat.userId !== userId)) {
@@ -41,6 +43,7 @@ export async function getChat(id: string, userId: string) {
 }
 
 export async function removeChat({ id, path }: { id: string; path: string }) {
+  console.log('removeChat');
   const session = await auth();
 
   if (!session) {
@@ -65,6 +68,7 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
 }
 
 export async function clearChats() {
+  console.log('clearChats');
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -93,6 +97,7 @@ export async function clearChats() {
 }
 
 export async function getSharedChat(id: string) {
+  console.log('getSharedChat');
   const chat = await kv.hgetall<Chat>(`chat:${id}`);
 
   if (!chat || !chat.sharePath) {
@@ -103,6 +108,7 @@ export async function getSharedChat(id: string) {
 }
 
 export async function shareChat(chat: Chat) {
+  console.log('shareChat');
   const session = await auth();
 
   if (!session?.user?.id || session.user.id !== chat.userId) {
